@@ -23,6 +23,7 @@ class MyApp extends StatelessWidget {
         locale: const Locale('tr'),
       ),
       child: MaterialApp(
+        debugShowCheckedModeBanner: false,
         navigatorKey: _navigatorKey,
         title: 'Hangi Aşı Grubundayım',
         theme: ThemeData(
