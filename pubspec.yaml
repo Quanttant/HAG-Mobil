@@ -13,6 +13,7 @@ dependencies:
     sdk: flutter
 
   cupertino_icons: ^1.0.1
+  direct_select_flutter: ^1.0.7
   http: ^0.12.2
   intl: ^0.16.1
   url_launcher: ^5.7.10

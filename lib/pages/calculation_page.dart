@@ -3,6 +3,9 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hag/pages/result_page.dart';
+import 'package:direct_select_flutter/direct_select_container.dart';
+import 'package:direct_select_flutter/direct_select_item.dart';
+import 'package:direct_select_flutter/direct_select_list.dart';
 
 class CalculationPage extends StatefulWidget {
   CalculationPage({Key key}) : super(key: key);
@@ -46,12 +49,15 @@ class _CalculationPageState extends State<CalculationPage> {
     {"id": 11, "type": "18 yaş altı", "priority": 4, "queue": ""}
   ].map((i) => DropdownModel.fromJson(i)));
 
-  DropdownModel selectedAge;
-  DropdownModel selectedJob;
+  int selectedJobIndex = 0;
+  int selectedAgeIndex = 0;
+
   bool hasDisease = false;
 
   DropdownModel calculateResult() {
     DropdownModel result;
+    DropdownModel selectedJob = jobList[selectedJobIndex];
+    DropdownModel selectedAge = ageList[selectedAgeIndex];
 
     var decision = selectedJob.priority < selectedAge.priority ? selectedJob.priority : selectedAge.priority;
 
@@ -97,112 +103,170 @@ class _CalculationPageState extends State<CalculationPage> {
             decoration: BoxDecoration(
                 gradient: LinearGradient(begin: Alignment.topCenter, end: Alignment.bottomCenter, colors: <Color>[Color(0xff18C4B9), Color(0xff02B9C0)])),
           )),
-      body: SafeArea(
-          child: SingleChildScrollView(
-              padding: EdgeInsets.symmetric(horizontal: 10.0),
-              child: Center(
-                child: Column(mainAxisAlignment: MainAxisAlignment.center, crossAxisAlignment: CrossAxisAlignment.center, children: [
-                  SizedBox(
-                    height: 40,
-                  ),
-                  DropdownButton<DropdownModel>(
-                    isDense: true,
-                    hint: Text("Meslek Grubu"),
-                    value: selectedJob,
-                    onChanged: (DropdownModel newValue) {
-                      setState(() {
-                        selectedJob = newValue;
-                      });
-                    },
-                    items: jobList.map((DropdownModel item) {
-                      return DropdownMenuItem<DropdownModel>(
-                        value: jobList[item.id],
-                        child: Text(
-                          item.type,
-                        ),
-                      );
-                    }).toList(),
-                  ),
-                  SizedBox(
-                    height: 40,
-                  ),
-                  DropdownButton<DropdownModel>(
-                    isDense: true,
-                    hint: Text("Yaş Grubu"),
-                    value: selectedAge,
-                    onChanged: (DropdownModel newValue) {
-                      setState(() {
-                        selectedAge = newValue;
-                      });
-                    },
-                    items: ageList.map((DropdownModel item) {
-                      return DropdownMenuItem<DropdownModel>(
-                        value: ageList[item.id],
-                        child: Text(
-                          item.type,
-                        ),
-                      );
-                    }).toList(),
-                  ),
-                  SizedBox(
-                    height: 40,
-                  ),
-                  CheckboxListTile(
-                    value: hasDisease,
-                    activeColor: Color(0xff00B8C0),
-                    onChanged: (bool value) {
-                      setState(() {
-                        hasDisease = value;
-                      });
-                    },
-                    controlAffinity: ListTileControlAffinity.leading,
-                    title: Text('Kronik hastalığınız var mı?'),
-                  ),
-                  SizedBox(
-                    height: 40,
-                  ),
-                  Padding(
-                    padding: EdgeInsets.symmetric(horizontal: 20.0),
-                    child: Container(
-                      width: MediaQuery.of(context).size.width,
-                      height: 60,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(20),
-                        gradient:
-                            LinearGradient(begin: Alignment.topCenter, end: Alignment.bottomCenter, colors: <Color>[Color(0xff18C4B9), Color(0xff02B9C0)]),
-                      ),
-                      child: FlatButton(
-                        shape: RoundedRectangleBorder(
+      body: DirectSelectContainer(
+        child: SafeArea(
+            child: SingleChildScrollView(
+                padding: EdgeInsets.symmetric(horizontal: 10.0),
+                child: Center(
+                  child: Column(mainAxisAlignment: MainAxisAlignment.center, crossAxisAlignment: CrossAxisAlignment.center, children: [
+                    SizedBox(
+                      height: 40,
+                    ),
+                    getDropdown(data: jobList, label: "Meslek Grubu", selectedIndex: selectedJobIndex, type: 0),
+                    SizedBox(
+                      height: 40,
+                    ),
+                    getDropdown(data: ageList, label: "Yaş Grubu", selectedIndex: selectedAgeIndex, type: 1),
+                    SizedBox(
+                      height: 40,
+                    ),
+                    CheckboxListTile(
+                      value: hasDisease,
+                      activeColor: Color(0xff00B8C0),
+                      onChanged: (bool value) {
+                        setState(() {
+                          hasDisease = value;
+                        });
+                      },
+                      controlAffinity: ListTileControlAffinity.leading,
+                      title: Text('Kronik hastalığınız var mı?'),
+                    ),
+                    SizedBox(
+                      height: 40,
+                    ),
+                    Padding(
+                      padding: EdgeInsets.symmetric(horizontal: 20.0),
+                      child: Container(
+                        width: MediaQuery.of(context).size.width,
+                        height: 60,
+                        decoration: BoxDecoration(
                           borderRadius: BorderRadius.circular(20),
+                          gradient:
+                              LinearGradient(begin: Alignment.topCenter, end: Alignment.bottomCenter, colors: <Color>[Color(0xff18C4B9), Color(0xff02B9C0)]),
                         ),
-                        materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                        child: Text(
-                          'Hesapla',
-                          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20),
-                        ),
-                        onPressed: () {
-                          if (selectedJob != null && selectedAge != null) {
-                            var result = calculateResult();
-                            Navigator.of(context).push(
-                              MaterialPageRoute(
-                                builder: (context) => ResultPage(
-                                  result: result,
+                        child: FlatButton(
+                          shape: RoundedRectangleBorder(
+                            borderRadius: BorderRadius.circular(20),
+                          ),
+                          materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                          child: Text(
+                            'Hesapla',
+                            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20),
+                          ),
+                          onPressed: () {
+                            if (jobList[selectedJobIndex] != null && ageList[selectedAgeIndex] != null) {
+                              var result = calculateResult();
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (context) => ResultPage(
+                                    result: result,
+                                  ),
                                 ),
-                              ),
-                            );
-                          } else {
-                            ScaffoldMessenger.of(context).removeCurrentSnackBar();
-                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                              content: Text('Meslek ve yaş boş bırakılmamalıdır!'),
-                              backgroundColor: Colors.red,
-                            ));
-                          }
-                        },
+                              );
+                            } else {
+                              ScaffoldMessenger.of(context).removeCurrentSnackBar();
+                              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                                content: Text('Meslek ve yaş boş bırakılmamalıdır!'),
+                                backgroundColor: Colors.red,
+                              ));
+                            }
+                          },
+                        ),
                       ),
                     ),
-                  ),
-                ]),
-              ))),
+                  ]),
+                ))),
+      ),
+    );
+  }
+
+  Widget getDropdown({List<DropdownModel> data, String label, int selectedIndex, int type}) {
+    return Column(
+      children: [
+        Container(alignment: AlignmentDirectional.centerStart, margin: EdgeInsets.only(left: 4), child: Text(label)),
+        Padding(
+          padding: const EdgeInsets.fromLTRB(0, 8, 0, 0),
+          child: Container(
+            decoration: _getShadowDecoration(),
+            child: Card(
+                child: Row(
+              mainAxisSize: MainAxisSize.max,
+              children: <Widget>[
+                Expanded(
+                    child: Padding(
+                        child: DirectSelectList<DropdownModel>(
+                          values: data,
+                          defaultItemIndex: selectedIndex,
+                          itemBuilder: (DropdownModel value) => getDropDownMenuItem(data, value),
+                          onUserTappedListener: () {
+                            ScaffoldMessenger.of(context).removeCurrentSnackBar();
+                            ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+                              content: Text('Seçmek için basılı tutun'),
+                              backgroundColor: Color(0xff00B8C0),
+                            ));
+                          },
+                          onItemSelectedListener: (item, index, context) {
+                            setState(() {
+                              selectedIndex = index;
+                              if (type == 0)
+                                selectedJobIndex = selectedIndex;
+                              else
+                                selectedAgeIndex = selectedIndex;
+                            });
+                          },
+                          focusedItemDecoration: _getDslDecoration(),
+                        ),
+                        padding: EdgeInsets.only(left: 12))),
+                Padding(
+                  padding: EdgeInsets.only(right: 8),
+                  child: _getDropdownIcon(),
+                )
+              ],
+            )),
+          ),
+        ),
+      ],
+    );
+  }
+
+  DirectSelectItem<DropdownModel> getDropDownMenuItem(List<DropdownModel> data, DropdownModel item) {
+    return DirectSelectItem<DropdownModel>(
+        itemHeight: 56,
+        value: data[item.id],
+        itemBuilder: (context, value) {
+          return Text(
+            item.type,
+            style: TextStyle(color: Color(0xff00B8C0), fontWeight: FontWeight.bold),
+          );
+        });
+  }
+
+  _getDslDecoration() {
+    return BoxDecoration(
+      border: BorderDirectional(
+        bottom: BorderSide(width: 1, color: Color(0xff00B8C0)),
+        top: BorderSide(width: 1, color: Color(0xff00B8C0)),
+      ),
+    );
+  }
+
+  Icon _getDropdownIcon() {
+    return Icon(
+      Icons.unfold_more,
+      color: Color(0xff00B8C0),
+    );
+  }
+
+  BoxDecoration _getShadowDecoration() {
+    return BoxDecoration(
+      boxShadow: <BoxShadow>[
+        new BoxShadow(
+          color: Colors.black.withOpacity(0.06),
+          spreadRadius: 4,
+          offset: new Offset(0.0, 0.0),
+          blurRadius: 15.0,
+        ),
+      ],
     );
   }
 }
