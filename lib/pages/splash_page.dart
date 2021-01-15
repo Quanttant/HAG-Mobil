@@ -1,18 +1,18 @@
 import 'package:flutter/material.dart';
-import 'package:hag/pages/home_screen.dart';
+import 'package:hag/pages/home_page.dart';
 import 'package:url_launcher/url_launcher.dart';
 
-class SplashScreen extends StatefulWidget {
+class SplashPage extends StatefulWidget {
   @override
-  _SplashScreenState createState() => _SplashScreenState();
+  _SplashPageState createState() => _SplashPageState();
 }
 
-class _SplashScreenState extends State<SplashScreen> {
+class _SplashPageState extends State<SplashPage> {
   @override
   void initState() {
     super.initState();
     Future.delayed(Duration(seconds: 3))
-        .then((value) => Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (BuildContext context) => HomeScreen())));
+        .then((value) => Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (BuildContext context) => HomePage())));
   }
 
   @override

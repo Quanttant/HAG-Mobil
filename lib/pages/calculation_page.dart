@@ -54,7 +54,7 @@ class _CalculationPageState extends State<CalculationPage> {
     DropdownModel result;
 
     var decision = selectedJob.priority < selectedAge.priority ? selectedJob.priority : selectedAge.priority;
-    print(decision);
+
     if (decision == 1) {
       if (selectedJob.priority == 1) {
         result = selectedJob;
@@ -177,12 +177,11 @@ class _CalculationPageState extends State<CalculationPage> {
                         ),
                         materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                         child: Text(
-                          'HESAPLA',
+                          'Hesapla',
                           style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20),
                         ),
                         onPressed: () {
                           if (selectedJob != null && selectedAge != null) {
-                            print("selectedJob: $selectedJob, selectedAge: $selectedJob");
                             var result = calculateResult();
                             Navigator.of(context).push(
                               MaterialPageRoute(

@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
-import 'package:hag/pages/splash_screen.dart';
+import 'package:hag/pages/splash_page.dart';
 
 void main() {
   runApp(MyApp());
@@ -13,11 +13,13 @@ class MyApp extends StatelessWidget {
       statusBarColor: Colors.transparent,
     ));
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Hangi Aşı Grubundayım',
       theme: ThemeData(
+        fontFamily: 'Montserrat',
+        accentColor: Color(0xff00B8C0),
         primarySwatch: Colors.blue,
       ),
-      home: SplashScreen(),
+      home: SplashPage(),
     );
   }
 }

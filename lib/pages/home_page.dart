@@ -4,12 +4,12 @@ import 'package:hag/network/vaccine_response.dart';
 import 'package:hag/pages/calculation_page.dart';
 import 'package:intl/intl.dart';
 
-class HomeScreen extends StatefulWidget {
+class HomePage extends StatefulWidget {
   @override
-  _HomeScreenState createState() => _HomeScreenState();
+  _HomePageState createState() => _HomePageState();
 }
 
-class _HomeScreenState extends State<HomeScreen> {
+class _HomePageState extends State<HomePage> {
   NumberFormat numberFormat = NumberFormat.decimalPattern('tr');
 
   Future<VaccineReponse> getStats() async {
@@ -172,7 +172,9 @@ class _HomeScreenState extends State<HomeScreen> {
                   SizedBox(
                     height: 50,
                   ),
-                  CircularProgressIndicator(),
+                  CircularProgressIndicator(
+                    valueColor: AlwaysStoppedAnimation<Color>(Color(0xff00B8C0)),
+                  ),
                 ],
               ),
             );
