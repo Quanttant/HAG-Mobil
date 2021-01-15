@@ -27,14 +27,22 @@ class _SplashScreenState extends State<SplashScreen> {
         child: SafeArea(
             child: Stack(
           children: [
-            Center(
-              child: Text(
-                'Hangi\nAşı\nGrubundayım',
-                maxLines: 3,
-                textAlign: TextAlign.center,
-                style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 40, height: 2),
+            Column(crossAxisAlignment: CrossAxisAlignment.center, mainAxisAlignment: MainAxisAlignment.center, children: [
+              Center(
+                child: Image.asset(
+                  'assets/logo-transparent.png',
+                  scale: 2,
+                ),
               ),
-            ),
+              Center(
+                child: Text(
+                  'Hangi Aşı Grubundayım',
+                  maxLines: 3,
+                  textAlign: TextAlign.center,
+                  style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 30, height: 2),
+                ),
+              ),
+            ]),
             Padding(
               padding: EdgeInsets.symmetric(vertical: 10),
               child: Align(
