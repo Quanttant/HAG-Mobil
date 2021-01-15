@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:hag/pages/home_screen.dart';
+import 'package:url_launcher/url_launcher.dart';
 
 class SplashScreen extends StatefulWidget {
   @override
@@ -24,13 +25,30 @@ class _SplashScreenState extends State<SplashScreen> {
           gradient: LinearGradient(colors: [Color(0xFF18C4B8), Color(0xFF00B8C0)]),
         ),
         child: SafeArea(
-            child: Center(
-          child: Text(
-            'Hangi\nAşı\nGrubundayım',
-            maxLines: 3,
-            textAlign: TextAlign.center,
-            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 40, height: 2),
-          ),
+            child: Stack(
+          children: [
+            Center(
+              child: Text(
+                'Hangi\nAşı\nGrubundayım',
+                maxLines: 3,
+                textAlign: TextAlign.center,
+                style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 40, height: 2),
+              ),
+            ),
+            Padding(
+              padding: EdgeInsets.symmetric(vertical: 10),
+              child: Align(
+                alignment: FractionalOffset.bottomCenter,
+                child: InkWell(
+                  onTap: () => launch('https://quanttant.com/'),
+                  child: Text(
+                    'Powered by Quanttant',
+                    style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 18),
+                  ),
+                ),
+              ),
+            ),
+          ],
         )),
       ),
     );

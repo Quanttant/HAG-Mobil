@@ -55,10 +55,35 @@ class _HomeScreenState extends State<HomeScreen> {
                     ),
                     materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                     child: Text(
-                      'AŞI GRUBU HESAPLAMA',
+                      'Aşı Grubu Hesaplama',
                       style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 18),
                     ),
                     onPressed: () => Navigator.of(context).push(MaterialPageRoute(builder: (context) => CalculationPage())),
+                  ),
+                ),
+              ),
+              SizedBox(
+                height: 40,
+              ),
+              Padding(
+                padding: EdgeInsets.symmetric(horizontal: 20.0),
+                child: Container(
+                  width: MediaQuery.of(context).size.width,
+                  height: 60,
+                  decoration: BoxDecoration(
+                    borderRadius: BorderRadius.circular(20),
+                    color: Color(0xffF8B133),
+                  ),
+                  child: FlatButton(
+                    shape: RoundedRectangleBorder(
+                      borderRadius: BorderRadius.circular(20),
+                    ),
+                    materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                    child: Text(
+                      'Ayarlar',
+                      style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 18),
+                    ),
+                    onPressed: null,
                   ),
                 ),
               ),
@@ -107,45 +132,55 @@ class _HomeScreenState extends State<HomeScreen> {
   }
 
   Widget futureBuilder() {
-    return FutureBuilder<VaccineReponse>(
-      builder: (context, snapshot) {
-        switch (snapshot.connectionState) {
-          case ConnectionState.none:
-            return Center(
-              child: Text('İnternet bağlatınız yok.'),
-            );
-          case ConnectionState.waiting:
-            return Center(
-              child: Column(
-                mainAxisAlignment: MainAxisAlignment.center,
-                children: [
-                  Text('Veriler yükleniyor...'),
-                  SizedBox(
-                    height: 50,
-                  ),
-                  CircularProgressIndicator(),
-                ],
-              ),
-            );
-            break;
-          default:
-            if (snapshot.hasData && !snapshot.hasError)
-              return Column(
-                children: [
-                  cardWidget('Toplam Aşılanan Kişi Sayısı', snapshot.data.total),
-                  SizedBox(
-                    height: 40,
-                  ),
-                  cardWidget('Bugün Aşılanan Kişi Sayısı', snapshot.data.today),
-                ],
-              );
-            else
-              return Center(
-                child: Text('İnternet bağlantısı yok'),
-              );
-        }
-      },
-      future: getStats(),
-    );
+    //TODO: move refresh indicator to page body because when no internet you can't refresh
+    return RefreshIndicator(
+        color: Colors.white,
+        backgroundColor: Color(0xff00B8C0),
+        onRefresh: () async {
+          setState(() {});
+        },
+        child: SingleChildScrollView(
+          physics: AlwaysScrollableScrollPhysics(),
+          child: FutureBuilder<VaccineReponse>(
+            builder: (context, snapshot) {
+              switch (snapshot.connectionState) {
+                case ConnectionState.none:
+                  return Center(
+                    child: Text('İnternet bağlatınız yok.'),
+                  );
+                case ConnectionState.waiting:
+                  return Center(
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      children: [
+                        Text('Veriler yükleniyor...'),
+                        SizedBox(
+                          height: 50,
+                        ),
+                        CircularProgressIndicator(),
+                      ],
+                    ),
+                  );
+                  break;
+                default:
+                  if (snapshot.hasData && !snapshot.hasError) {
+                    return Column(
+                      children: [
+                        cardWidget('Toplam Aşılanan Kişi Sayısı', snapshot.data.total),
+                        SizedBox(
+                          height: 40,
+                        ),
+                        cardWidget('Bugün Aşılanan Kişi Sayısı', snapshot.data.today),
+                      ],
+                    );
+                  } else
+                    return Center(
+                      child: Text('İnternet bağlantısı yok'),
+                    );
+              }
+            },
+            future: getStats(),
+          ),
+        ));
   }
 }

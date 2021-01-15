@@ -184,7 +184,6 @@ class _CalculationPageState extends State<CalculationPage> {
                           if (selectedJob != null && selectedAge != null) {
                             print("selectedJob: $selectedJob, selectedAge: $selectedJob");
                             var result = calculateResult();
-                            print(result.toString());
                             Navigator.of(context).push(
                               MaterialPageRoute(
                                 builder: (context) => ResultPage(
