@@ -1,18 +1,18 @@
 class VaccineReponse {
   int total;
-  int today;
+  int yesterday;
 
-  VaccineReponse({this.total, this.today});
+  VaccineReponse({this.total, this.yesterday});
 
   VaccineReponse.fromJson(Map<String, dynamic> json) {
     total = json['total'];
-    today = json['today'];
+    yesterday = json['yesterday'];
   }
 
   Map<String, dynamic> toJson() {
     final Map<String, dynamic> data = new Map<String, dynamic>();
     data['total'] = this.total;
-    data['today'] = this.today;
+    data['yesterday'] = this.yesterday;
     return data;
   }
 }

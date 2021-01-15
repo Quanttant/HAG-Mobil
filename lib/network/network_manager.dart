@@ -9,7 +9,7 @@ class NetworkManager {
 
   static Future<dynamic> getVaccineStats() async {
     try {
-      final response = await http.get(tempServerUrl);
+      final response = await http.get(serverUrl);
       if (response.statusCode == 200) {
         return VaccineReponse.fromJson(json.decode(response.body));
       } else {

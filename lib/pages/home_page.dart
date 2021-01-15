@@ -2,6 +2,7 @@ import 'package:flutter/material.dart';
 import 'package:hag/network/network_manager.dart';
 import 'package:hag/network/vaccine_response.dart';
 import 'package:hag/pages/calculation_page.dart';
+import 'package:hag/pages/settings_page.dart';
 import 'package:intl/intl.dart';
 
 class HomePage extends StatefulWidget {
@@ -90,7 +91,7 @@ class _HomePageState extends State<HomePage> {
                         'Ayarlar',
                         style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 18),
                       ),
-                      onPressed: null,
+                      onPressed: () => Navigator.of(context).push(MaterialPageRoute(builder: (context) => SettingsPage())),
                     ),
                   ),
                 ),
@@ -187,7 +188,7 @@ class _HomePageState extends State<HomePage> {
                   SizedBox(
                     height: 40,
                   ),
-                  cardWidget('Bugün Aşılanan Kişi Sayısı', snapshot.data.today),
+                  cardWidget('Bugün Aşılanan Kişi Sayısı', (snapshot.data.total - snapshot.data.yesterday).toInt()),
                 ],
               );
             } else

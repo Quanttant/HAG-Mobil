@@ -53,6 +53,7 @@ class _CalculationPageState extends State<CalculationPage> {
   int selectedAgeIndex = 0;
 
   bool hasDisease = false;
+  bool calculateBtnClicked = false;
 
   DropdownModel calculateResult() {
     DropdownModel result;
@@ -155,14 +156,17 @@ class _CalculationPageState extends State<CalculationPage> {
                           ),
                           onPressed: () {
                             if (jobList[selectedJobIndex] != null && ageList[selectedAgeIndex] != null) {
-                              var result = calculateResult();
-                              Navigator.of(context).push(
-                                MaterialPageRoute(
-                                  builder: (context) => ResultPage(
-                                    result: result,
+                              if (!calculateBtnClicked) {
+                                var result = calculateResult();
+                                calculateBtnClicked = false;
+                                Navigator.of(context).push(
+                                  MaterialPageRoute(
+                                    builder: (context) => ResultPage(
+                                      result: result,
+                                    ),
                                   ),
-                                ),
-                              );
+                                );
+                              }
                             } else {
                               ScaffoldMessenger.of(context).removeCurrentSnackBar();
                               ScaffoldMessenger.of(context).showSnackBar(SnackBar(
