@@ -26,7 +26,7 @@ class _SplashScreenState extends State<SplashScreen> {
         child: SafeArea(
             child: Center(
           child: Text(
-            'Hangi\nAşı\nGrubundasın?',
+            'Hangi\nAşı\nGrubundayım',
             maxLines: 3,
             textAlign: TextAlign.center,
             style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 40, height: 2),
