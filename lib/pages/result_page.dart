@@ -29,6 +29,7 @@ class _ResultPageState extends State<ResultPage> {
             mainAxisAlignment: MainAxisAlignment.center,
             children: <Widget>[
               Text('Öncelik Grubunuz: ${widget.result.priority}'),
+              Text('Sıra Numarası: ${widget.result.queue}'),
             ],
           ),
         ),
