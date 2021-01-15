@@ -30,7 +30,7 @@ class _SplashPageState extends State<SplashPage> {
             Column(crossAxisAlignment: CrossAxisAlignment.center, mainAxisAlignment: MainAxisAlignment.center, children: [
               Center(
                 child: Image.asset(
-                  'assets/logo-transparent.png',
+                  'assets/images/logo-transparent.png',
                   scale: 2,
                 ),
               ),
