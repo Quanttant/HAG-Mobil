@@ -1,6 +1,6 @@
 # HAG-Mobil
 
-Hangi Aşı Grubundasın Mobil
+Hangi Aşı Grubundayım Mobil
 
 ## Getting Started
 
