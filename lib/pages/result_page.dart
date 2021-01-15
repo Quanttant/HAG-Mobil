@@ -88,7 +88,7 @@ class _ResultPageState extends State<ResultPage> {
                               mainAxisAlignment: MainAxisAlignment.center,
                               children: [
                                 Image.asset(
-                                  'assets/logo-transparent.png',
+                                  'assets/images/logo-transparent.png',
                                   width: 50,
                                   height: 50,
                                 ),
