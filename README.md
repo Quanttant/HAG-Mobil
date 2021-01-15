@@ -1,6 +1,6 @@
 # HAG-Mobil
 
-A new Flutter project.
+Hangi Aşı Grubundayım Mobil
 
 ## Getting Started
 
