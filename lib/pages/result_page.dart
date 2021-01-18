@@ -27,16 +27,20 @@ class _ResultPageState extends State<ResultPage> {
   @override
   void initState() {
     super.initState();
-    FlutterHmsGmsAvailability.isGmsAvailable.then((t) {
-      setState(() {
-        gms = t;
-      });
-    });
-    FlutterHmsGmsAvailability.isHmsAvailable.then((t) {
-      setState(() {
-        hms = t;
-      });
-    });
+    try {
+      if (Platform.isAndroid) {
+        FlutterHmsGmsAvailability.isGmsAvailable.then((t) {
+          setState(() {
+            gms = t;
+          });
+        });
+        FlutterHmsGmsAvailability.isHmsAvailable.then((t) {
+          setState(() {
+            hms = t;
+          });
+        });
+      }
+    } catch (e) {}
   }
 
   @override

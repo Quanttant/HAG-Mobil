@@ -3,13 +3,9 @@ import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:hag/pages/result_page.dart';
-import 'package:direct_select_flutter/direct_select_container.dart';
-import 'package:direct_select_flutter/direct_select_item.dart';
-import 'package:direct_select_flutter/direct_select_list.dart';
+import 'package:flutter_picker/flutter_picker.dart';
 
 class CalculationPage extends StatefulWidget {
-  CalculationPage({Key key}) : super(key: key);
-
   @override
   _CalculationPageState createState() => _CalculationPageState();
 }
@@ -104,173 +100,179 @@ class _CalculationPageState extends State<CalculationPage> {
             decoration: BoxDecoration(
                 gradient: LinearGradient(begin: Alignment.topCenter, end: Alignment.bottomCenter, colors: <Color>[Color(0xff18C4B9), Color(0xff02B9C0)])),
           )),
-      body: DirectSelectContainer(
-        child: SafeArea(
-            child: SingleChildScrollView(
-                padding: EdgeInsets.symmetric(horizontal: 10.0),
-                child: Center(
-                  child: Column(mainAxisAlignment: MainAxisAlignment.center, crossAxisAlignment: CrossAxisAlignment.center, children: [
-                    SizedBox(
-                      height: 40,
-                    ),
-                    getDropdown(data: jobList, label: "Meslek Grubu", selectedIndex: selectedJobIndex, type: 0),
-                    SizedBox(
-                      height: 40,
-                    ),
-                    getDropdown(data: ageList, label: "Yaş Grubu", selectedIndex: selectedAgeIndex, type: 1),
-                    SizedBox(
-                      height: 40,
-                    ),
-                    CheckboxListTile(
-                      value: hasDisease,
-                      activeColor: Color(0xff00B8C0),
-                      onChanged: (bool value) {
-                        setState(() {
-                          hasDisease = value;
-                        });
+      body: SafeArea(
+          child: SingleChildScrollView(
+              padding: EdgeInsets.symmetric(horizontal: 10.0),
+              child: Center(
+                child: Column(mainAxisAlignment: MainAxisAlignment.center, crossAxisAlignment: CrossAxisAlignment.start, children: [
+                  SizedBox(
+                    height: 40,
+                  ),
+                  Text('Meslek Grubu'),
+                  SizedBox(height: 10),
+                  Container(
+                    height: 60,
+                    width: MediaQuery.of(context).size.width,
+                    child: GestureDetector(
+                      onTap: () {
+                        showPicker(context, "Meslek Grubu", jobList.map((x) => x.type).toList(), (Picker picker, List value) {
+                          setState(() {
+                            selectedJobIndex = jobList[value[0]].id;
+                          });
+                        }, selectedIndex: selectedJobIndex);
                       },
-                      controlAffinity: ListTileControlAffinity.leading,
-                      title: Text('Kronik hastalığınız var mı?'),
-                    ),
-                    SizedBox(
-                      height: 40,
-                    ),
-                    Padding(
-                      padding: EdgeInsets.symmetric(horizontal: 20.0),
-                      child: Container(
-                        width: MediaQuery.of(context).size.width,
-                        height: 60,
-                        decoration: BoxDecoration(
-                          borderRadius: BorderRadius.circular(20),
-                          gradient:
-                              LinearGradient(begin: Alignment.topCenter, end: Alignment.bottomCenter, colors: <Color>[Color(0xff18C4B9), Color(0xff02B9C0)]),
-                        ),
-                        child: FlatButton(
-                          shape: RoundedRectangleBorder(
-                            borderRadius: BorderRadius.circular(20),
-                          ),
-                          materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
-                          child: Text(
-                            'Hesapla',
-                            style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20),
-                          ),
-                          onPressed: () {
-                            if (jobList[selectedJobIndex] != null && ageList[selectedAgeIndex] != null) {
-                              if (!calculateBtnClicked) {
-                                var result = calculateResult();
-                                calculateBtnClicked = false;
-                                Navigator.of(context).push(
-                                  MaterialPageRoute(
-                                    builder: (context) => ResultPage(
-                                      result: result,
-                                    ),
+                      child: Card(
+                          margin: EdgeInsets.zero,
+                          child: Row(
+                            children: [
+                              SizedBox(
+                                width: 10,
+                              ),
+                              Expanded(
+                                child: Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: Text(
+                                    jobList[selectedJobIndex].type,
+                                    style: TextStyle(color: Color(0xff00B8C0), fontWeight: FontWeight.bold),
+                                    textAlign: TextAlign.left,
                                   ),
-                                );
-                              }
-                            } else {
-                              ScaffoldMessenger.of(context).removeCurrentSnackBar();
-                              ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                                content: Text('Meslek ve yaş boş bırakılmamalıdır!'),
-                                backgroundColor: Colors.red,
-                              ));
-                            }
-                          },
-                        ),
-                      ),
+                                ),
+                              ),
+                              Padding(
+                                padding: EdgeInsets.only(right: 8),
+                                child: _getDropdownIcon(),
+                              )
+                            ],
+                          )),
                     ),
-                  ]),
-                ))),
-      ),
-    );
-  }
-
-  Widget getDropdown({List<DropdownModel> data, String label, int selectedIndex, int type}) {
-    return Column(
-      children: [
-        Container(alignment: AlignmentDirectional.centerStart, margin: EdgeInsets.only(left: 4), child: Text(label)),
-        Padding(
-          padding: const EdgeInsets.fromLTRB(0, 8, 0, 0),
-          child: Container(
-            decoration: _getShadowDecoration(),
-            child: Card(
-                child: Row(
-              mainAxisSize: MainAxisSize.max,
-              children: <Widget>[
-                Expanded(
-                    child: Padding(
-                        child: DirectSelectList<DropdownModel>(
-                          values: data,
-                          defaultItemIndex: selectedIndex,
-                          itemBuilder: (DropdownModel value) => getDropDownMenuItem(data, value),
-                          onUserTappedListener: () {
+                  ),
+                  SizedBox(
+                    height: 40,
+                  ),
+                  Text('Yaş Grubu'),
+                  SizedBox(height: 10),
+                  Container(
+                    height: 60,
+                    width: MediaQuery.of(context).size.width,
+                    child: GestureDetector(
+                      onTap: () {
+                        showPicker(context, "Yaş Grubu", ageList.map((x) => x.type).toList(), (Picker picker, List value) {
+                          setState(() {
+                            selectedAgeIndex = ageList[value[0]].id;
+                          });
+                        }, selectedIndex: selectedAgeIndex);
+                      },
+                      child: Card(
+                          margin: EdgeInsets.zero,
+                          child: Row(
+                            children: [
+                              SizedBox(
+                                width: 10,
+                              ),
+                              Expanded(
+                                child: Align(
+                                  alignment: Alignment.centerLeft,
+                                  child: Text(
+                                    ageList[selectedAgeIndex].type,
+                                    style: TextStyle(color: Color(0xff00B8C0), fontWeight: FontWeight.bold),
+                                    textAlign: TextAlign.left,
+                                  ),
+                                ),
+                              ),
+                              Padding(
+                                padding: EdgeInsets.only(right: 8),
+                                child: _getDropdownIcon(),
+                              )
+                            ],
+                          )),
+                    ),
+                  ),
+                  SizedBox(
+                    height: 40,
+                  ),
+                  CheckboxListTile(
+                    value: hasDisease,
+                    activeColor: Color(0xff00B8C0),
+                    onChanged: (bool value) {
+                      setState(() {
+                        hasDisease = value;
+                      });
+                    },
+                    controlAffinity: ListTileControlAffinity.leading,
+                    title: Text('Kronik hastalığınız var mı?'),
+                  ),
+                  SizedBox(
+                    height: 40,
+                  ),
+                  Padding(
+                    padding: EdgeInsets.symmetric(horizontal: 20.0),
+                    child: Container(
+                      width: MediaQuery.of(context).size.width,
+                      height: 60,
+                      decoration: BoxDecoration(
+                        borderRadius: BorderRadius.circular(20),
+                        gradient:
+                            LinearGradient(begin: Alignment.topCenter, end: Alignment.bottomCenter, colors: <Color>[Color(0xff18C4B9), Color(0xff02B9C0)]),
+                      ),
+                      child: FlatButton(
+                        shape: RoundedRectangleBorder(
+                          borderRadius: BorderRadius.circular(20),
+                        ),
+                        materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                        child: Text(
+                          'Hesapla',
+                          style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 20),
+                        ),
+                        onPressed: () {
+                          if (jobList[selectedJobIndex] != null && ageList[selectedAgeIndex] != null) {
+                            if (!calculateBtnClicked) {
+                              var result = calculateResult();
+                              calculateBtnClicked = false;
+                              Navigator.of(context).push(
+                                MaterialPageRoute(
+                                  builder: (context) => ResultPage(
+                                    result: result,
+                                  ),
+                                ),
+                              );
+                            }
+                          } else {
                             ScaffoldMessenger.of(context).removeCurrentSnackBar();
                             ScaffoldMessenger.of(context).showSnackBar(SnackBar(
-                              content: Text('Seçmek için basılı tutun'),
-                              backgroundColor: Color(0xff00B8C0),
+                              content: Text('Meslek ve yaş boş bırakılmamalıdır!'),
+                              backgroundColor: Colors.red,
                             ));
-                          },
-                          onItemSelectedListener: (item, index, context) {
-                            setState(() {
-                              selectedIndex = index;
-                              if (type == 0)
-                                selectedJobIndex = selectedIndex;
-                              else
-                                selectedAgeIndex = selectedIndex;
-                            });
-                          },
-                          focusedItemDecoration: _getDslDecoration(),
-                        ),
-                        padding: EdgeInsets.only(left: 12))),
-                Padding(
-                  padding: EdgeInsets.only(right: 8),
-                  child: _getDropdownIcon(),
-                )
-              ],
-            )),
-          ),
-        ),
-      ],
+                          }
+                        },
+                      ),
+                    ),
+                  ),
+                ]),
+              ))),
     );
   }
 
-  DirectSelectItem<DropdownModel> getDropDownMenuItem(List<DropdownModel> data, DropdownModel item) {
-    return DirectSelectItem<DropdownModel>(
-        itemHeight: 56,
-        value: data[item.id],
-        itemBuilder: (context, value) {
-          return Text(
-            item.type,
-            style: TextStyle(color: Color(0xff00B8C0), fontWeight: FontWeight.bold),
-          );
-        });
-  }
-
-  _getDslDecoration() {
-    return BoxDecoration(
-      border: BorderDirectional(
-        bottom: BorderSide(width: 1, color: Color(0xff00B8C0)),
-        top: BorderSide(width: 1, color: Color(0xff00B8C0)),
-      ),
-    );
+  void showPicker(BuildContext context, String label, List<dynamic> pickerData, PickerConfirmCallback onConfirm, {int selectedIndex = 0}) {
+    Picker(
+            adapter: PickerDataAdapter<String>(pickerdata: pickerData),
+            containerColor: Theme.of(context).backgroundColor,
+            backgroundColor: Theme.of(context).backgroundColor,
+            headercolor: Theme.of(context).cardColor,
+            textStyle: Theme.of(context).textTheme.headline6,
+            title: Text(label),
+            changeToFirst: true,
+            cancelText: 'İptal',
+            confirmText: 'Tamam',
+            hideHeader: false,
+            selecteds: [selectedIndex],
+            onConfirm: onConfirm)
+        .showModal(context);
   }
 
   Icon _getDropdownIcon() {
     return Icon(
       Icons.unfold_more,
       color: Color(0xff00B8C0),
-    );
-  }
-
-  BoxDecoration _getShadowDecoration() {
-    return BoxDecoration(
-      boxShadow: <BoxShadow>[
-        new BoxShadow(
-          color: Colors.black.withOpacity(0.06),
-          spreadRadius: 4,
-          offset: new Offset(0.0, 0.0),
-          blurRadius: 15.0,
-        ),
-      ],
     );
   }
 }

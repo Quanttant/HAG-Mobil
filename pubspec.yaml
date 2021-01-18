@@ -3,7 +3,7 @@ description: Hangi Aşı Grubundayım
 
 publish_to: 'none' # Remove this line if you wish to publish to pub.dev
 
-version: 1.0.0+1
+version: 1.0.0+2
 
 environment:
   sdk: ">=2.7.0 <3.0.0"
@@ -14,9 +14,10 @@ dependencies:
 
   confetti: ^0.5.4+1
   cupertino_icons: ^1.0.1
-  direct_select_flutter: ^1.0.7
   esys_flutter_share: ^1.0.2
   flutter_hms_gms_availability: ^1.0.0
+  flutter_picker:
+    git: git://github.com/yangyxd/flutter_picker.git
   http: ^0.12.2
   intl: ^0.16.1
   photo_view: ^0.10.3

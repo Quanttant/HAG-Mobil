@@ -29,7 +29,7 @@ class MyApp extends StatelessWidget {
         theme: ThemeData(
           fontFamily: 'Montserrat',
           accentColor: Color(0xff00B8C0),
-          primarySwatch: Colors.blue,
+          backgroundColor: Colors.white,
         ),
         home: SplashPage(),
       ),
