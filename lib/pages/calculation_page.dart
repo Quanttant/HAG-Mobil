@@ -255,6 +255,7 @@ class _CalculationPageState extends State<CalculationPage> {
   void showPicker(BuildContext context, String label, List<dynamic> pickerData, PickerConfirmCallback onConfirm, {int selectedIndex = 0}) {
     Picker(
             adapter: PickerDataAdapter<String>(pickerdata: pickerData),
+            selectedTextStyle: TextStyle(color: Color(0xff00B8C0)),
             containerColor: Theme.of(context).backgroundColor,
             backgroundColor: Theme.of(context).backgroundColor,
             headercolor: Theme.of(context).cardColor,
@@ -271,7 +272,7 @@ class _CalculationPageState extends State<CalculationPage> {
 
   Icon _getDropdownIcon() {
     return Icon(
-      Icons.unfold_more,
+      Icons.arrow_drop_down,
       color: Color(0xff00B8C0),
     );
   }

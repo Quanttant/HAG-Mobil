@@ -82,7 +82,7 @@ class _ResultPageState extends State<ResultPage> {
                             Expanded(
                                 child: Center(
                                     child: Text(
-                              widget.result.queue.isNotEmpty
+                              widget.result.queue != null && widget.result.queue.isNotEmpty
                                   ? '${widget.result.priority}. aşı grubunda ${widget.result.queue} sırasındasın'
                                   : '${widget.result.priority}. aşı grubundasın',
                               textAlign: TextAlign.center,
@@ -189,10 +189,10 @@ class _ResultPageState extends State<ResultPage> {
       File imgFile = File('$directory/screenshot.png');
       imgFile.writeAsBytes(pngBytes);
       String storeLink = gms ? 'https://play.google.com/store/apps/details?id=com.quanttant.hag' : 'https://appgallery.huawei.com/#/app/C103691603';
-      String desc = '\n\nSen de hangi aşı grubunda olduğunu merak ediyorsan 👇 \n\n$storeLink';
-      String message = widget.result.queue != null
+      String desc = '\n\nSen de hangi aşı grubunda olduğunu merak ediyorsan Hangi Aşı Grubundayım uygulamasını indirebilirsin 👇 \n\n$storeLink';
+      String message = widget.result.queue.isNotEmpty
           ? '${widget.result.priority}. aşı grubunda ${widget.result.queue} sırasındayım. $desc'
-          : '${widget.result.priority} Aşı grubundayım. $desc';
+          : '${widget.result.priority} aşı grubundayım. $desc';
       await Share.file('', 'screenshot.png', pngBytes, 'image/png', text: message);
     }).catchError((onError) {
       print(onError);
