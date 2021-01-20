@@ -97,7 +97,7 @@ class _ResultPageState extends State<ResultPage> {
                                   height: 50,
                                 ),
                                 Text(
-                                  'Hangi Aşı Grubundasın',
+                                  'Hangi Aşı Grubundayım',
                                   style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold),
                                 )
                               ],
