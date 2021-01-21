@@ -19,7 +19,7 @@
 
 |Play Store|AppGallery|Web|Code|
 |--|--|--|--|
-|Soon|Soon|[Link](https://quanttant.com/hag/web/#/)|[Clone the repository](https://github.com/Quanttant/HAG-Mobil.git)|
+|[Link](https://play.google.com/store/apps/details?id=com.quanttant.hag)|Soon|[Link](https://quanttant.com/hag/web/#/)|[Clone the repository](https://github.com/Quanttant/HAG-Mobil.git)|
 
  If you clone repository, Do not forget the  `flutter pub get` 
 
