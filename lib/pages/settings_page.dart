@@ -81,7 +81,13 @@ class _SettingsPageState extends State<SettingsPage> {
                             'Geri Bildirim Gönder',
                             style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 18),
                           ),
-                          onPressed: () => Wiredash.of(context).show(),
+                          onPressed: () {
+                            Wiredash.of(context).setBuildProperties(
+                              buildNumber: '4',
+                              buildVersion: '1.0.2',
+                            );
+                            Wiredash.of(context).show();
+                          },
                         ),
                       ),
                     ),

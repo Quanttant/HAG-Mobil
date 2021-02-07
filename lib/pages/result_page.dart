@@ -6,6 +6,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_hms_gms_availability/flutter_hms_gms_availability.dart';
 import 'package:hag/pages/photoview_page.dart';
+import 'package:hag/utils/app_constant.dart';
 import 'package:screenshot/screenshot.dart';
 import 'calculation_page.dart';
 import 'package:path_provider/path_provider.dart';
@@ -155,15 +156,15 @@ class _ResultPageState extends State<ResultPage> {
                     ),
                     materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
                     child: Text(
-                      'COVID-19 Aşısı Uygulanacak Kişiler',
+                      'Aşı Uygulanacak Grup Sıralaması',
                       style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 15),
                     ),
                     onPressed: () {
                       Navigator.of(context).push(
                         MaterialPageRoute(
                           builder: (context) => PhotoViewPage(
-                            title: 'COVID-19 Aşısı Uygulanacak Kişiler',
-                            imgUrl: 'assets/images/asi-tablo.png',
+                            title: 'Aşı Uygulanacak Grup Sıralaması',
+                            imgUrl: AppConstant.tableUrl,
                           ),
                         ),
                       );

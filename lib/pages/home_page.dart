@@ -2,7 +2,9 @@ import 'package:flutter/material.dart';
 import 'package:hag/network/network_manager.dart';
 import 'package:hag/network/vaccine_response.dart';
 import 'package:hag/pages/calculation_page.dart';
+import 'package:hag/pages/photoview_page.dart';
 import 'package:hag/pages/settings_page.dart';
+import 'package:hag/utils/app_constant.dart';
 import 'package:intl/intl.dart';
 
 class HomePage extends StatefulWidget {
@@ -42,11 +44,11 @@ class _HomePageState extends State<HomePage> {
               mainAxisAlignment: MainAxisAlignment.center,
               children: [
                 SizedBox(
-                  height: 40,
+                  height: 30,
                 ),
                 futureBuilder(),
                 SizedBox(
-                  height: 40,
+                  height: 30,
                 ),
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 20.0),
@@ -71,7 +73,72 @@ class _HomePageState extends State<HomePage> {
                   ),
                 ),
                 SizedBox(
-                  height: 40,
+                  height: 30,
+                ),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 20.0),
+                  child: Container(
+                    width: MediaQuery.of(context).size.width,
+                    height: 60,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20),
+                      color: Color(0xff0F344E),
+                    ),
+                    child: FlatButton(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                      child: Text(
+                        'Aşı Uygulanacak Grup Sıralaması',
+                        style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 18),
+                      ),
+                      onPressed: () => Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => PhotoViewPage(
+                            title: 'Aşı Uygulanacak Grup Sıralaması',
+                            imgUrl: AppConstant.tableUrl,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: 30,
+                ),
+                Padding(
+                  padding: EdgeInsets.symmetric(horizontal: 20.0),
+                  child: Container(
+                    width: MediaQuery.of(context).size.width,
+                    height: 60,
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(20),
+                      color: Color(0xff1A7774),
+                    ),
+                    child: FlatButton(
+                      shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(20),
+                      ),
+                      materialTapTargetSize: MaterialTapTargetSize.shrinkWrap,
+                      child: Text(
+                        '8 Adımda Nasıl Aşı Olurum',
+                        style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 18),
+                      ),
+                      onPressed: () => Navigator.of(context).push(
+                        MaterialPageRoute(
+                          builder: (context) => PhotoViewPage(
+                            title: '8 Adımda Nasıl Aşı Olurum',
+                            imgUrl: 'assets/images/asi-afis.png',
+                            localImg: true,
+                          ),
+                        ),
+                      ),
+                    ),
+                  ),
+                ),
+                SizedBox(
+                  height: 30,
                 ),
                 Padding(
                   padding: EdgeInsets.symmetric(horizontal: 20.0),
@@ -186,7 +253,7 @@ class _HomePageState extends State<HomePage> {
                 children: [
                   cardWidget('Toplam Aşılanan Kişi Sayısı', snapshot.data.total),
                   SizedBox(
-                    height: 40,
+                    height: 20,
                   ),
                   cardWidget('Bugün Aşılanan Kişi Sayısı', (snapshot.data.total - snapshot.data.yesterday).toInt()),
                 ],
